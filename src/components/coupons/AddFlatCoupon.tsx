@@ -19,10 +19,13 @@ class AddFlatCoupon extends React.Component {
         "https://rvrbhfrk9j.execute-api.us-east-2.amazonaws.com/production/aws/add-flat-coupon",
         {
           method: "post",
+          mode: "cors",
+          credentials: "same-origin",
           headers: {
             Accept: "application/json, text/plain, */*",
             "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*"
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "OPTIONS,GET,POST"
           },
           body: JSON.stringify({
             coupon_code,

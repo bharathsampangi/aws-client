@@ -5,7 +5,7 @@ export default () => {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
       <Link to="/" className="navbar-brand">
-        AntStack
+        AWS-AntStack
       </Link>
       <button
         className="navbar-toggler"
