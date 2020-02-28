@@ -15,19 +15,23 @@ class AddFlatCoupon extends React.Component {
     event.preventDefault();
     let { coupon_code, minimum_amount, discount_amount, validity } = this.state;
     try {
-      const response = await fetch("aws/add-flat-coupon", {
-        method: "post",
-        headers: {
-          Accept: "application/json, text/plain, */*",
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          coupon_code,
-          minimum_amount,
-          discount_amount,
-          validity
-        })
-      });
+      const response = await fetch(
+        "https://rvrbhfrk9j.execute-api.us-east-2.amazonaws.com/production/aws/add-flat-coupon",
+        {
+          method: "post",
+          headers: {
+            Accept: "application/json, text/plain, */*",
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*"
+          },
+          body: JSON.stringify({
+            coupon_code,
+            minimum_amount,
+            discount_amount,
+            validity
+          })
+        }
+      );
       const data = await response.json();
       if (data) {
         data.coupon_code = coupon_code;

@@ -8,17 +8,21 @@ class Coupon extends React.Component {
     event.preventDefault();
     let { coupon_code, total_amount } = this.state;
     try {
-      const response = await fetch("aws/validate", {
-        method: "post",
-        headers: {
-          Accept: "application/json, text/plain, */*",
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          total_amount,
-          coupon_code
-        })
-      });
+      const response = await fetch(
+        "https://rvrbhfrk9j.execute-api.us-east-2.amazonaws.com/production/aws/add-percent-coupon",
+        {
+          method: "post",
+          headers: {
+            Accept: "application/json, text/plain, */*",
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*"
+          },
+          body: JSON.stringify({
+            total_amount,
+            coupon_code
+          })
+        }
+      );
       const data = await response.json();
       if (data) {
         data.coupon_code = coupon_code;

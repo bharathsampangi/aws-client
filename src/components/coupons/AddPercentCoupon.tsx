@@ -21,20 +21,24 @@ class AddPercentCoupon extends React.Component {
       maximum_amount,
       validity
     } = this.state;
-    const response = await fetch("aws/add-percent-coupon", {
-      method: "post",
-      headers: {
-        Accept: "application/json, text/plain, */*",
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        coupon_code,
-        minimum_amount,
-        discount_percentage,
-        maximum_amount,
-        validity
-      })
-    });
+    const response = await fetch(
+      "https://rvrbhfrk9j.execute-api.us-east-2.amazonaws.com/production/aws/add-percent-coupon",
+      {
+        method: "post",
+        headers: {
+          Accept: "application/json, text/plain, */*",
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*"
+        },
+        body: JSON.stringify({
+          coupon_code,
+          minimum_amount,
+          discount_percentage,
+          maximum_amount,
+          validity
+        })
+      }
+    );
     let data = await response.json();
     if (data) {
       data.coupon_code = coupon_code;
