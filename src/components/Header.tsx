@@ -3,7 +3,10 @@ import { Link } from "react-router-dom";
 
 export default () => {
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav
+      className="navbar navbar-expand-lg navbar-dark"
+      style={{ backgroundColor: "#FD5750" }}
+    >
       <Link to="/" className="navbar-brand">
         AWS-AntStack
       </Link>
