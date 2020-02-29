@@ -1,5 +1,6 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
+import axios from "axios";
 
 class Coupon extends React.Component {
   state = { total_amount: 0, coupon_code: "", navigate: false, data: "" };
@@ -7,29 +8,17 @@ class Coupon extends React.Component {
   handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     let { coupon_code, total_amount } = this.state;
+
     try {
-      const response = await fetch(
+      const response = await axios.post(
         "https://rvrbhfrk9j.execute-api.us-east-2.amazonaws.com/production/aws/validate",
         {
-          method: "post",
-          mode: "cors",
-          credentials: "same-origin",
-          headers: {
-            Accept: "application/json, text/plain, */*",
-            "Content-Type": "application/json",
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods": "OPTIONS,GET,POST",
-            "Access-Control-Allow-Headers": "*",
-            "Access-Control-Allow-Credentials": "true",
-            "Access-Control-Expose-Headers": "*"
-          },
-          body: JSON.stringify({
-            total_amount,
-            coupon_code
-          })
+          total_amount,
+          coupon_code
         }
       );
-      const data = await response.json();
+      const data = response.data;
+
       if (data) {
         data.coupon_code = coupon_code;
         this.setState({ data });
@@ -37,7 +26,12 @@ class Coupon extends React.Component {
       }
     } catch (err) {
       if (err) {
-        alert(err);
+        const data = err.response.data;
+        if (data) {
+          data.coupon_code = coupon_code;
+          this.setState({ data });
+          this.setState({ navigate: true });
+        }
       }
     }
   };

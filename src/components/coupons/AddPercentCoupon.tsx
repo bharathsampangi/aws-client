@@ -1,5 +1,6 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
+import axios from "axios";
 
 class AddPercentCoupon extends React.Component {
   state = {
@@ -21,34 +22,30 @@ class AddPercentCoupon extends React.Component {
       maximum_amount,
       validity
     } = this.state;
-    const response = await fetch(
-      "https://rvrbhfrk9j.execute-api.us-east-2.amazonaws.com/production/aws/add-percent-coupon",
-      {
-        method: "post",
-        mode: "cors",
-        credentials: "same-origin",
-        headers: {
-          Accept: "application/json, text/plain, */*",
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Methods": "OPTIONS,GET,POST"
-        },
-        body: JSON.stringify({
+    try {
+      const response = await axios.post(
+        "https://rvrbhfrk9j.execute-api.us-east-2.amazonaws.com/production/aws/add-percent-coupon",
+        {
           coupon_code,
           minimum_amount,
           discount_percentage,
           maximum_amount,
           validity
-        })
-      }
-    );
-    let data = await response.json();
-    if (data) {
+        }
+      );
+      const data = response.data;
       data.coupon_code = coupon_code;
       this.setState({ data });
       this.setState({ navigate: true });
-    } else {
-      alert("Sorry, for the inconvenience please try again");
+    } catch (err) {
+      if (err) {
+        const data = err.response.data;
+        if (data) {
+          data.coupon_code = coupon_code;
+          this.setState({ data });
+          this.setState({ navigate: true });
+        }
+      }
     }
   };
 
